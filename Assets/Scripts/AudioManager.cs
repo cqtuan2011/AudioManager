@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class AudioManager : BaseManager<AudioManager>
 {
+    public bool IsSoundOn => isSoundOn();
+    public bool IsMusicOn => isMusicOn();
+
     [SerializeField] private AudioSO     audioSO;
     [SerializeField] private AudioSource soundSource, musicSource;
 
@@ -12,8 +15,8 @@ public class AudioManager : BaseManager<AudioManager>
 
     private void Start()
     {
-        this.audioSO.Toggle(AudioType.Sound, PlayerPrefs.GetInt(SOUND, 1) == 1);
-        this.audioSO.Toggle(AudioType.Music, PlayerPrefs.GetInt(MUSIC, 1) == 1);
+        this.audioSO.Toggle(AudioType.Sound, IsSoundOn);
+        this.audioSO.Toggle(AudioType.Music, IsMusicOn);
     }
 
     public void PlaySound(SoundType type)
@@ -30,12 +33,28 @@ public class AudioManager : BaseManager<AudioManager>
         musicSource.Play();
     }
 
-    public void Toggle(AudioType type)
+    public bool Toggle(AudioType type)
     {
-        string AUDIO = type == AudioType.Sound ? SOUND : MUSIC;
+        string AUDIO       = type == AudioType.Sound ? SOUND : MUSIC;
+        AudioSource source = type == AudioType.Sound ? soundSource : musicSource;
+
         bool isOn = Mathf.Abs(PlayerPrefs.GetInt(AUDIO, 1) - 1) == 1;
         audioSO.Toggle(type, isOn);
+
+        source.mute = !isOn;
         PlayerPrefs.SetInt(AUDIO, isOn ? 1 : 0);
+
+        return isOn;
+    }
+
+    private bool isSoundOn()
+    {
+        return PlayerPrefs.GetInt(SOUND, 1) == 1;
+    }
+
+    private bool isMusicOn()
+    {
+        return PlayerPrefs.GetInt(MUSIC, 1) == 1;
     }
 
     private Sound GetSound(SoundType type)

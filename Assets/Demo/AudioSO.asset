@@ -15,10 +15,14 @@ MonoBehaviour:
   sounds:
   - DefaultVolume: 1
     Volume: 1
-    Clip: {fileID: 0}
-    Type: 0
-  musics:
+    Clip: {fileID: 8300000, guid: 24810e9373d2b3f4abad803000964c6c, type: 3}
+    Type: 2
   - DefaultVolume: 1
     Volume: 1
-    Clip: {fileID: 0}
-    Type: 0
+    Clip: {fileID: 8300000, guid: 32ab0fbf109e3ea41b541fbb31487f0f, type: 3}
+    Type: 6
+  - DefaultVolume: 1
+    Volume: 1
+    Clip: {fileID: 8300000, guid: ebcd3946975efae448342407f9aa2f37, type: 3}
+    Type: 5
+  musics: []
