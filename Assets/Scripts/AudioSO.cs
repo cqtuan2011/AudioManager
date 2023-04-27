@@ -12,19 +12,33 @@ public enum AudioType
 [CreateAssetMenu(fileName = "AudioSO", menuName = "ScriptableObjects/AudioSO")]
 public class AudioSO : ScriptableObject
 {
-    public List<Sound> sounds;
-    public List<Music> musics;
+    public List<Sound> Sounds;
+    public List<Music> Musics;
 
     public void Toggle(AudioType type, bool isOn)
     {
         switch (type)
         {
             case AudioType.Sound:
-                this.Toggle(sounds, isOn);
+                this.Toggle(Sounds, isOn);
                 break;
 
             case AudioType.Music:
-                this.Toggle(musics, isOn);
+                this.Toggle(Musics, isOn);
+                break;
+        }
+    }
+
+    public void SetVolume(AudioType type, float value)
+    {
+        switch (type)
+        {
+            case AudioType.Sound:
+                this.SetVolume(Sounds, value);
+                break;
+
+            case AudioType.Music:
+                this.SetVolume(Musics, value);
                 break;
         }
     }
@@ -34,6 +48,14 @@ public class AudioSO : ScriptableObject
         foreach (var audio in audios)
         {
             audio.Volume = isOn ? audio.DefaultVolume : 0;
+        }
+    }
+
+    private void SetVolume<T>(List<T> audios, float value) where T : Audio
+    {
+        foreach (var audio in audios)
+        {
+            audio.Volume = value;
         }
     }
 }
